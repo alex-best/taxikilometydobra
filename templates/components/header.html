@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="pre-header">
+    <div class="uk-container uk-light">
+        <a href="" class="uk-margin-small-right" uk-icon="icon: twitter; ratio: 0.9"></a>
+        <a href="" class="uk-margin-small-right" uk-icon="icon: instagram; ratio: 0.9"></a>
+        <a href="" class="uk-margin-small-right" uk-icon="icon: facebook; ratio: 0.9"></a>
+
+        <span class="uk-align-right">Инфолиния: <a href="tel:+375296945773">+375296945773</a></span>
+    </div>
+</div>
+
+<div class="uk-container">
+    <div class="uk-navbar">
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo uk-padding-remove header-logo" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.png' %}" />
+            </a>
+
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="{% url 'home' %}">Главная</a></li>
+            </ul>
+        </div>
+
+        {% if not user.is_authenticated %}
+            <div class="uk-navbar-right">
+                <div class="uk-navbar-item uk-padding-remove-right">
+                    <button class="uk-button uk-button-default uk-margin-right">Регистрация</button>
+                    <button class="uk-button uk-button-primary">Войти</button>
+                </div>
+            </div>
+        {% else %}
+            {{ user.email }}
+        {% endif %}
+    </div>
+</div>

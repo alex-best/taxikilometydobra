@@ -1,0 +1,13 @@
+
+.pre-header {
+    background-color: #1e87f0;
+    padding: 10px;
+}
+
+.pre-header svg {
+    padding-bottom: 3px;
+}
+
+.header-logo img {
+    height: 50%;
+}
