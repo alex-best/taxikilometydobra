@@ -18,13 +18,18 @@ class UserManager(BaseUserManager):
     def create_user(self, phone, password=None, **extra_fields):
         """ Создаёт нового пользователя. """
         extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('is_staff', False)
         return self._create_user(phone, password, **extra_fields)
 
     def create_superuser(self, phone, password, **extra_fields):
         """ Создаёт нового суперпользователя. """
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_staff', True)
 
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+            raise ValueError('Суперпользователь должен иметь is_superuser = True.')
+        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Суперпользователь должен иметь is_staff = True.')
 
         return self._create_user(phone, password, **extra_fields)
