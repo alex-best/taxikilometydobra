@@ -83,6 +83,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+MEDIA_URL = '/uploads/'
+
+MEDIA_DIRS = [
+    os.path.join(BASE_DIR, "uploads"),
+]
+
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Minsk'

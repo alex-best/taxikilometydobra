@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 
 from .managers import UserManager
+from .utils import get_file_path
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -11,7 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField('телефон', max_length=15, unique=True)
     first_name = models.CharField('имя', max_length=30, blank=True)
     last_name = models.CharField('фамилия', max_length=30, blank=True)
-    avatar = models.ImageField('аватар', upload_to='avatars/', null=True, blank=True)
+    avatar = models.ImageField('аватар', upload_to=get_file_path, null=True, blank=True)
 
     date_joined = models.DateTimeField('зарегистрирован', auto_now_add=True)
     is_active = models.BooleanField('активен', default=True)

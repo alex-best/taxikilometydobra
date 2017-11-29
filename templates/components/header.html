@@ -30,7 +30,14 @@
                 </div>
             </div>
         {% else %}
-            {{ user.email }}
+            <div class="uk-navbar-right">
+                <div class="uk-navbar-item uk-padding-remove-right header-logo">
+                    <span class="uk-margin-right">{{ user.get_full_name }}</span>
+                    {% if user.avatar %}
+                        <img class="uk-border-circle" src="{{ user.avatar.url }}" />
+                    {% endif %}
+                </div>
+            </div>
         {% endif %}
     </div>
 </div>
