@@ -20,6 +20,7 @@ INSTALLED_APPS = [
 
     # приложения
     'accounts',
+    'profiles',
     'trips',
 ]
 
