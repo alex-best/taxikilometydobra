@@ -32,19 +32,17 @@
         {% else %}
             <div class="uk-navbar-right">
                 <div class="uk-navbar-item uk-padding-remove-right header-logo">
-                    <button class="uk-button uk-button-text uk-margin-right" type="button">{{ user.get_full_name }}</button>
-                    <div uk-dropdown>
+                    <span class="uk-margin-right">{{ user.get_full_name | upper }}</span>
+                    <img class="uk-border-circle" src="{% if user.avatar %} {{ user.avatar.url }} {% else %} {% static 'img/no-avatar.jpg' %} {% endif %}" />
+                </div>
+
+                <div uk-dropdown="offset: 5; pos: bottom-right" class="uk-padding-small">
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li><a href="#">Профиль</a></li>
-                            <li class="uk-nav-divider"></li>
-                            <li><a href="{% url 'logout' %}">Выйти</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Профиль</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Настройки</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a></li>
                         </ul>
                     </div>
-               
-                    {% if user.avatar %}
-                        <img class="uk-border-circle" src="{{ user.avatar.url }}" />
-                    {% endif %}
-                </div>
             </div>
         {% endif %}
     </div>

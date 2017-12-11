@@ -34,8 +34,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def get_full_name(self):
-        """ Возвращает полное имя без крайних пробелов """
-        full_name = '%s %s' % (self.first_name, self.last_name)
+        """ Возвращает полное имя без крайних пробелов, либо телефон, если имя и фамилия не указаны """
+        if self.first_name or self.last_name:
+            full_name = '%s %s' % (self.first_name, self.last_name)
+        else:
+            full_name = self.phone
         return full_name.strip()
 
     def get_short_name(self):
