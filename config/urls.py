@@ -7,6 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 from main.views import HomeView
 from accounts.views import RegistrationView, ChangePasswordView, ChangeAccountView
+from profiles.views import ChangeProfileView
 
 
 urlpatterns = [
@@ -17,6 +18,7 @@ urlpatterns = [
 
     # Настройки
     path('settings/account', ChangeAccountView.as_view(), name='settings-account'),
+    path('settings/profile', ChangeProfileView.as_view(), name='settings-profile'),
     path('settings/password', ChangePasswordView.as_view(), name='settings-password'),
 
     path('admin/', admin.site.urls),
