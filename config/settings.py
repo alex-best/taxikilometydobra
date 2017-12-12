@@ -101,3 +101,13 @@ USE_L10N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = 'home'
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'uk-alert-primary',
+    messages.INFO: '',
+    messages.SUCCESS: 'uk-alert-success',
+    messages.WARNING: 'uk-alert-warning',
+    messages.ERROR: 'uk-alert-danger',
+}
