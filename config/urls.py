@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView, LogoutView
 
 from main.views import HomeView
-from accounts.views import RegistrationView, change_password
+from accounts.views import RegistrationView, ChangePasswordView, ChangeAccountView
 
 
 urlpatterns = [
@@ -14,7 +14,10 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('register/', RegistrationView.as_view(), name='register'),
-    path('settings/password', change_password, name='password-change'),
+
+    # Настройки
+    path('settings/account', ChangeAccountView.as_view(), name='settings-account'),
+    path('settings/password', ChangePasswordView.as_view(), name='settings-password'),
 
     path('admin/', admin.site.urls),
 ] 

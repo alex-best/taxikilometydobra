@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Настройки{% endblock %}
+
+{% block content %}
+    <div class="uk-section uk-padding-remove-top">
+        <div class="uk-container">
+            <h3>Настройки</h3>
+
+            <div uk-grid>
+                <div class="uk-width-1-6@m">
+                    {% include 'settings/settings-menu.html' %}
+                </div>
+
+                <div class="uk-form-width-large">
+                    {% block settings-content %}{% endblock settings-content %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -44,3 +44,8 @@ class RegistrationForm(forms.ModelForm):
                 }
             ),
         }
+
+class AccountChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['phone', 'first_name', 'last_name']
