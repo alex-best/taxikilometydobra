@@ -1,12 +1,12 @@
 from django.forms import ModelForm
 from django.forms.widgets import TextInput, NumberInput, Textarea
 
-from .models import FamilyProfile
+from .models import Profile
 
 
-class FamilyProfileChangeForm(ModelForm):
+class ProfileChangeForm(ModelForm):
     class Meta:
-        model = FamilyProfile
+        model = Profile
         fields = ['trips_per_month', 'car_requirements', 'info']
         widgets = {
             'trips_per_month': NumberInput( attrs = {

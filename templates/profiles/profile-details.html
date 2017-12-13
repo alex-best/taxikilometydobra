@@ -1,0 +1,7 @@
+{% extends 'profiles/profile-base.html' %}
+
+{% block profile-content %}
+    {% if profile.user_type == 'STAFF' %}
+        {% include 'profiles/profile-staff.html' %}
+    {% endif %}
+{% endblock %}

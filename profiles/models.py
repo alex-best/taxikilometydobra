@@ -4,33 +4,53 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Profile(models.Model):
-    """ Абстрактная модель профиля """
+class UserTypes:
+    STAFF = 'STAFF'
+    FAMILY = 'FAMILY'
+    BENEFACTOR = 'BENEFACTOR'
+    
+    CHOICES = (
+        (STAFF, 'Сотрудник'),
+        (FAMILY, 'Семья'),
+        (BENEFACTOR, 'Благотворитель'),
+    )
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    user_type = models.CharField(max_length=15, choices=UserTypes.CHOICES, default=UserTypes.BENEFACTOR)
 
     class Meta:
         abstract = True
 
-    FAMILY = 'FAMILY'
-    ADMIN = 'ADMIN'
 
-
-class FamilyProfile(Profile):
-    """ Модель профиля для учётной записи пользователя """
+class StaffProfile(models.Model):
+    position = models.CharField(verbose_name='Позиция', max_length=30, blank=True)
 
     class Meta:
-        verbose_name = "Профиль семьи"
-        verbose_name_plural = "Профили семей"
+        abstract = True
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
-    trips_per_month = models.PositiveIntegerField(verbose_name='Необходимое количество поездок в месяц', blank=True, null=True)
+
+class FamilyProfile(models.Model):
+    trips_per_month = models.PositiveIntegerField(verbose_name='Необходимое количество поездок в месяц', blank=True)
     car_requirements = models.TextField(verbose_name='Требования к машине', blank=True)
     info = models.TextField(verbose_name='Дополнительно', max_length=500, blank=True)
 
-    def get_type(self):
-        return self.FAMILY
+    class Meta:
+        abstract = True
+
+
+class BenefactorProfile(models.Model):
+    about = models.TextField(verbose_name='О себе', max_length=500, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Profile(UserProfile, StaffProfile, FamilyProfile, BenefactorProfile):
+    pass
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created and not instance.is_staff:
-        FamilyProfile.objects.create(user=instance)
+    if created:
+        Profile.objects.create(user=instance)

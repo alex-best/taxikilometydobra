@@ -38,13 +38,13 @@
 
                 <div uk-dropdown="offset: 5; pos: bottom-right" class="uk-padding-small">
                     <ul class="uk-nav uk-dropdown-nav">
-                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Профиль</a></li>
+                        <li><a href="{% url 'profile-details' %}"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Профиль</a></li>
 
-                        {% if user.profile.get_type == user.profile.FAMILY %}
+                        {% if user.profile.user_type == 'FAMILY' %}
                             <li><a href="{% url 'trips-list' %}"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
                         {% endif %}
 
-                        {% if user.profile.get_type == user.profile.ADMIN %}
+                        {% if user.profile.user_type == 'ADMIN' %}
                             <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
                             <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Пользователи</a></li>
                         {% endif %}

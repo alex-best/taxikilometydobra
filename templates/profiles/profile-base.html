@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <div class="uk-section uk-padding-remove-top">
+        <div class="uk-container">
+            <h3 class="uk-margin-remove-bottom uk-text-uppercase">{{ user.get_full_name }}</h3>
+            <span class="uk-text-meta">{{ profile.get_user_type_display }}</span>
+
+            {% block profile-content %}{% endblock profile-content %}
+        </div>
+    </div>
+
+{% endblock %}
