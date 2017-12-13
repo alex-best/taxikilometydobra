@@ -1,0 +1,6 @@
+{% load active %}
+
+<ul class="uk-nav uk-nav-default">
+    <li class="{% active 'trips-list' %}"><a href="{% url 'trips-list' %}">Мои поездки</a></li>
+    <li class="{% active 'trips-create' %}"><a href="{% url 'trips-create' %}">Добавить новую</a></li>
+</ul>

@@ -1,0 +1,99 @@
+{% extends 'trips/trips-base.html' %}
+
+{% block trips-content %}
+    <span class="uk-text-primary">Обратите внимание, что от качества и верности указанных данных зависит результат модерации.</span>
+
+    <form class="uk-grid-small uk-form-width-large" uk-grid method="POST">
+        {% csrf_token %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>{{ form.non_field_errors|striptags }}</p>
+            </div>
+        {% endif %}
+
+        <div class="uk-width-1-1">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.departure.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.departure }}
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.arrival.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.arrival }}
+            </div>
+        </div>
+        <div class="uk-width-1-1">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.purpose.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.purpose }}
+            </div>
+        </div>
+        
+        <div class="uk-width-1-3@s">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.date.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.date }}
+            </div>
+        </div>
+        <div class="uk-width-1-3@s">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.departure_time.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.departure_time }}
+            </div>
+        </div>
+        <div class="uk-width-1-3@s">
+            <label class="uk-form-label" for="form-stacked-text">{{ form.arrival_time.label }}</label>
+            <div class="uk-form-controls">
+                {{ form.arrival_time }}
+            </div>
+        </div>
+
+        <div class="uk-width-1-1">
+            <button class="uk-button uk-button-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+
+    {% comment %} <form class="uk-form-stacked uk-form-width-large" method="POST">
+        {% csrf_token %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>{{ form.non_field_errors|striptags }}</p>
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">{{ field.label }}</label>
+                <div class="uk-form-controls">
+                    {{ field }}
+                </div>
+                <span class="uk-text-danger">{% if field.errors %} {{ field.errors|striptags }} {% endif %}</span>
+            </div>
+        {% endfor %}
+
+        <button class="uk-button uk-button-primary" type="submit">Сохранить</button>
+    </form> {% endcomment %}
+{% endblock %}

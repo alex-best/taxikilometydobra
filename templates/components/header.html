@@ -32,17 +32,27 @@
         {% else %}
             <div class="uk-navbar-right">
                 <div class="uk-navbar-item uk-padding-remove-right header-logo">
-                    <span class="uk-margin-right">{{ user.get_full_name | upper }}</span>
+                    <span class="uk-margin-right uk-text-uppercase">{{ user.get_full_name }}</span>
                     <img class="uk-border-circle" src="{% if user.avatar %} {{ user.avatar.url }} {% else %} {% static 'img/no-avatar.jpg' %} {% endif %}" />
                 </div>
 
                 <div uk-dropdown="offset: 5; pos: bottom-right" class="uk-padding-small">
-                        <ul class="uk-nav uk-dropdown-nav">
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Профиль</a></li>
-                            <li><a href="{% url 'settings-account' %}"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Настройки</a></li>
-                            <li><a href="{% url 'logout' %}"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a></li>
-                        </ul>
-                    </div>
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Профиль</a></li>
+
+                        {% if user.profile.get_type == user.profile.FAMILY %}
+                            <li><a href="{% url 'trips-list' %}"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
+                        {% endif %}
+
+                        {% if user.profile.get_type == user.profile.ADMIN %}
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Пользователи</a></li>
+                        {% endif %}
+
+                        <li><a href="{% url 'settings-account' %}"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Настройки</a></li>
+                        <li><a href="{% url 'logout' %}"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a></li>
+                    </ul>
+                </div>
             </div>
         {% endif %}
     </div>

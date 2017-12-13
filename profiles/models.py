@@ -4,7 +4,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class FamilyProfile(models.Model):
+class Profile(models.Model):
+    """ Абстрактная модель профиля """
+
+    class Meta:
+        abstract = True
+
+    FAMILY = 'FAMILY'
+    ADMIN = 'ADMIN'
+
+
+class FamilyProfile(Profile):
     """ Модель профиля для учётной записи пользователя """
 
     class Meta:
@@ -15,6 +25,9 @@ class FamilyProfile(models.Model):
     trips_per_month = models.PositiveIntegerField(verbose_name='Необходимое количество поездок в месяц', blank=True, null=True)
     car_requirements = models.TextField(verbose_name='Требования к машине', blank=True)
     info = models.TextField(verbose_name='Дополнительно', max_length=500, blank=True)
+
+    def get_type(self):
+        return self.FAMILY
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

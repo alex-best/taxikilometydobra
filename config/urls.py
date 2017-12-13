@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from main.views import HomeView
 from accounts.views import RegistrationView, ChangePasswordView, ChangeAccountView
 from profiles.views import ChangeProfileView
+from trips.views import TripsList, CreateTrip
 
 
 urlpatterns = [
@@ -20,6 +21,10 @@ urlpatterns = [
     path('settings/account', ChangeAccountView.as_view(), name='settings-account'),
     path('settings/profile', ChangeProfileView.as_view(), name='settings-profile'),
     path('settings/password', ChangePasswordView.as_view(), name='settings-password'),
+
+    # Поездки
+    path('trips/list', TripsList.as_view(), name='trips-list'),
+    path('trips/create', CreateTrip.as_view(), name='trips-create'),
 
     path('admin/', admin.site.urls),
 ] 
