@@ -1,35 +1,52 @@
-from django.contrib.auth.forms import PasswordResetForm
 from django.shortcuts import redirect
-from django.views.generic import CreateView, FormView
+from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import RegistrationForm, AccountChangeForm
-from .models import User
 
 
-class RegistrationView(CreateView):
-    """ Страница содержащая форму регистрации """
+class RegistrationView(FormView):
+    """Страница регистрации
+    
+    Страница содержит форму для регистрации нового пользователя. 
+    После успешной регистрации пользователь аутентифицируется 
+    и перенаправляется на страницу редактирования профиля.
+
+    Связанные требования: R 2.1 - R 2.10
+    """
 
     form_class = RegistrationForm
-    success_url = reverse_lazy('home')
-    model = User
+    success_url = reverse_lazy('settings-profile')
     template_name = 'accounts/register.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        """ Перенаправить пользователя на главную страницу, если он уже вошел в систему """
-        
-        if request.user.is_authenticated:
-            return redirect('home')
-        else:
-            return super().dispatch(request, *args, **kwargs)
+    def form_valid(self, form):
+        """Форма валидна
+
+        Сохраняем пользователя, аутентифицируем и перенаправляем 
+        в настройки профиля.
+        """
+
+        user = form.save()
+        authenticate(
+            phone=form.cleaned_data.get('phone'), 
+            password=form.cleaned_data.get('password')
+        )
+        login(self.request, user)
+        return redirect('settings-profile')
 
 
 class ChangeAccountView(LoginRequiredMixin, FormView):
-    """ Страница содержащая форму смены информации """
+    """Страница изменения информации учётной записи
+    
+    Страница содержит форму для изменения основных полей учётной 
+    записи (исключая пароль).
+
+    Связанные требования: R 4.3.2 - R 4.3.6
+    """
 
     login_url = '/login/'
     redirect_field_name = 'redirect'
@@ -51,7 +68,12 @@ class ChangeAccountView(LoginRequiredMixin, FormView):
 
 
 class ChangePasswordView(LoginRequiredMixin, FormView):
-    """ Страница содержащая форму смены пароля """
+    """Страница изменения пароля учётной записи
+    
+    Страница содержит форму для изменения пароля учётной записи.
+
+    Связанные требования: 4.4.1 - 4.4.6
+    """
 
     login_url = '/login/'
     redirect_field_name = 'redirect'

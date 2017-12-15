@@ -11,8 +11,8 @@ class UserTypes:
     
     CHOICES = (
         (STAFF, 'Сотрудник'),
-        (FAMILY, 'Семья'),
         (BENEFACTOR, 'Благотворитель'),
+        (FAMILY, 'Семья'),
     )
 
 class UserProfile(models.Model):

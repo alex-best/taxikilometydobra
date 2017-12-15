@@ -1,13 +1,38 @@
 from django import forms
-from django.forms.widgets import PasswordInput, TextInput
+from django.forms.widgets import PasswordInput, TextInput, RadioSelect
+from django.contrib.auth.password_validation import validate_password
+
+from profiles.models import UserTypes
 
 from .models import User
 
 
 class RegistrationForm(forms.ModelForm):
-    """ Форма для создания новой учётной записи пользователя """
+    """Форма регистрации
+    
+    Форма используется для создания новой учётной записи 
+    пользователя.
 
+    Связанные требования: R 2.2 - R 2.10
+    """
+
+    user_type = forms.ChoiceField(
+        required = True,
+        choices=UserTypes.CHOICES[1:], 
+        widget=RadioSelect(attrs={'class':'uk-radio'}),
+        initial=UserTypes.CHOICES[1][0],
+    )
     error_css_class = 'uk-form-danger'
+
+    def clean_password(self):
+        """Проверка сложности пароля
+
+        Пароль проходит все валидаторы из настройки 
+        AUTH_PASSWORD_VALIDATORS. Вызывает ValidationError.
+        """
+        password = self.cleaned_data.get('password')
+        validate_password(password)
+        return password
 
     class Meta:
         model = User
@@ -46,6 +71,14 @@ class RegistrationForm(forms.ModelForm):
         }
 
 class AccountChangeForm(forms.ModelForm):
+    """Форма редактирования учётной записи
+    
+    Форма используется для редактирования существующей учётной 
+    записи пользователя. Содержит телефон, имя и фамилию.
+
+    Связанные требования: R 4.3.2 - R 4.3.6
+    """
+
     class Meta:
         model = User
         fields = ['phone', 'first_name', 'last_name']

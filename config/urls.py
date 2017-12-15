@@ -12,7 +12,10 @@ from trips.views import TripsList, CreateTrip
 
 
 urlpatterns = [
+    # Общедоступные и статические страницы
     path('', HomeView.as_view(), name='home'),
+
+    # Регистрация и аутентификация
     path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('register/', RegistrationView.as_view(), name='register'),

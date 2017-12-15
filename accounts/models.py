@@ -8,16 +8,17 @@ from .utils import get_file_path
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """ Модель учётной записи пользователя """
+    """Модель учётной записи пользователя 
+
+    Модель содержит основную базовую информацию, необхоимую для 
+    идентификации пользователя в системе, которая также является 
+    общей для всех типов пользователей.
+    """
 
     phone_regex = RegexValidator(
         regex=r'^\+\d{9,15}$',  
         message="Неверный формат телефона!"
     )
-
-    class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
 
     phone = models.CharField('телефон', max_length=15, unique=True, validators=[phone_regex])
     first_name = models.CharField('имя', max_length=30, blank=True)
@@ -31,10 +32,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def get_full_name(self):
-        """ Возвращает полное имя без крайних пробелов, либо телефон, если имя и фамилия не указаны """
+        """Отображаемое имя пользователя
+
+        Метод возвратит телефон пользователя, если не указано имя и фамилия,
+        имя или фамилию, если указано одно из полей и имя + фамилию, 
+        если указаны оба поля.
+        """
+
         if self.first_name or self.last_name:
             full_name = '%s %s' % (self.first_name, self.last_name)
         else:
@@ -42,5 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         return full_name.strip()
 
     def get_short_name(self):
-        """ Возвращает короткое имя (только имя) """
+        """Короткое имя пользователя
+
+        Метод возвращает имя пользователя.
+        """
         return self.first_name
