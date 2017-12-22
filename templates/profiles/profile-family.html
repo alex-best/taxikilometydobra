@@ -1,0 +1,10 @@
+<dl class="uk-description-list">
+    <dt>Поездок зарегистрировано:</dt>
+    <dd>{{ profile.user.trips.count }}</dd>
+
+    <dt>Требования к машине:</dt>
+    <dd>{% if profile.car_requirements %}{{ profile.car_requirements }}{% else %}Не указано{% endif %}</dd>
+
+    <dt>Дополнительно:</dt>
+    <dd>{% if profile.info %}{{ profile.info }}{% else %}Не указано{% endif %}</dd>
+</dl>

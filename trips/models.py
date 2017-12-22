@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from main.utils import TaxiAPI
 
 
 class TripStatus:
@@ -26,7 +29,7 @@ class Trip(models.Model):
     class Meta:
         ordering = ['-created']
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='trips')
 
     departure = models.CharField(verbose_name='Пункт отправления', max_length=140)
     arrival = models.CharField(verbose_name='Пункт назначения', max_length=140)
@@ -40,3 +43,11 @@ class Trip(models.Model):
     status = models.CharField(verbose_name='Статус', max_length=2,
                                 choices=TripStatus.CHOICES, default=TripStatus.CREATED)
     length = models.FloatField(verbose_name='Длина пути', blank=True, null=True)
+
+
+@receiver(post_save, sender=Trip)
+def create_user_profile(sender, instance, created, **kwargs):
+    if instance.status == TripStatus.CREATED:
+        instance.length = TaxiAPI.get_length()
+        instance.status = TripStatus.APPROVAL
+        instance.save()

@@ -3,5 +3,9 @@
 {% block profile-content %}
     {% if profile.user_type == 'STAFF' %}
         {% include 'profiles/profile-staff.html' %}
+    {% elif profile.user_type == 'BENEFACTOR' %}
+        {% include 'profiles/profile-benefactor.html' %}
+    {% elif profile.user_type == 'FAMILY' %}
+        {% include 'profiles/profile-family.html' %}
     {% endif %}
 {% endblock %}

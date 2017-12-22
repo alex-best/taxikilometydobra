@@ -4,20 +4,32 @@ from django.views.generic import FormView, DetailView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .forms import ProfileChangeForm
-from .models import Profile
+from .forms import FamilyProfileForm, BenefactorProfileForm, StaffProfileForm
+from .models import Profile, UserTypes
 
 class ChangeProfileView(LoginRequiredMixin, FormView):
-    """ Страница содержащая форму смены информации """
+    """Страница редактирования профиля
+    
+    Страница содержит форму для редактирования профиля
+    пользователя в зависимости от его типа.
+    """
 
     login_url = '/login/'
     redirect_field_name = 'redirect'
-    form_class = ProfileChangeForm
     template_name = 'settings/settings-profile.html'
     success_url = reverse_lazy('settings-profile')
 
     def get_form(self):
-        return self.form_class(instance=self.request.user.profile, **self.get_form_kwargs())
+        """Возвращает форму в зависимости от типа пользователя
+        """
+        if self.request.user.profile.user_type == UserTypes.FAMILY:
+            return FamilyProfileForm(instance=self.request.user.profile, **self.get_form_kwargs())
+        elif self.request.user.profile.user_type == UserTypes.BENEFACTOR:
+            return BenefactorProfileForm(instance=self.request.user.profile, **self.get_form_kwargs())
+        elif self.request.user.profile.user_type == UserTypes.STAFF:
+            return StaffProfileForm(instance=self.request.user.profile, **self.get_form_kwargs())
+        else:
+            raise TypeError('Invalid profile type!')
 
     def form_valid(self, form):
         form.save()

@@ -44,9 +44,8 @@
                             <li><a href="{% url 'trips-list' %}"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
                         {% endif %}
 
-                        {% if user.profile.user_type == 'ADMIN' %}
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: location"></span> Поездки</a></li>
-                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Пользователи</a></li>
+                        {% if user.profile.user_type == 'STAFF' %}
+                            <li><a href="{% url 'admin:index' %}"><span class="uk-margin-small-right" uk-icon="icon: settings"></span> Управление</a></li>
                         {% endif %}
 
                         <li><a href="{% url 'settings-account' %}"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Настройки</a></li>
