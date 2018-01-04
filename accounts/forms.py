@@ -17,7 +17,7 @@ class RegistrationForm(forms.ModelForm):
     """
 
     user_type = forms.ChoiceField(
-        required = True,
+        required = False,
         choices=UserTypes.CHOICES[1:], 
         widget=RadioSelect(attrs={'class':'uk-radio'}),
         initial=UserTypes.CHOICES[1][0],

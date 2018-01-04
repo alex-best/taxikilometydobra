@@ -13,7 +13,7 @@ class TripsList(ListView):
 
     def get_queryset(self):
         return Trip.objects.filter(user=self.request.user)
-
+`
 
 class CreateTrip(CreateView):
     form_class = CreateTripForm
