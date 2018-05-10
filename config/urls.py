@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 
 from django.contrib.auth.views import LoginView, LogoutView
 
-from main.views import HomeView
 from accounts.views import RegistrationView, ChangePasswordView, ChangeAccountView
+from main.views import HomeView
 from profiles.views import ChangeProfileView, ProfileDetail
 from trips.views import TripsList, CreateTrip
 

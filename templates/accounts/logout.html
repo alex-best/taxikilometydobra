@@ -3,6 +3,11 @@
 {% block title %}Успешно{% endblock %}
 
 {% block content %}
-    Вы успешно вышли из системы.
-    <a href="{% url 'home' %}">На главную</a>
+    <div class="uk-section" uk-height-viewport="expand: true">
+        <div class="uk-container">
+            <h3>До встречи!</h3>
+            Вы успешно вышли из системы.<br>
+            <a class="uk-button uk-button-primary uk-margin-small-top" href="{% url 'home' %}">Вернуться на главную</a>
+        </div>
+    </div>
 {% endblock %}

@@ -31,6 +31,8 @@ class RegistrationView(FormView):
         """
 
         user = form.save()
+        user.profile.user_type = form.cleaned_data.get('user_type')
+        user.profile.save()
         authenticate(
             phone=form.cleaned_data.get('phone'), 
             password=form.cleaned_data.get('password')

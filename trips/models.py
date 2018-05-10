@@ -41,7 +41,7 @@ class Trip(models.Model):
 
     created = models.DateTimeField(verbose_name='Создана', auto_now_add=True)
     status = models.CharField(verbose_name='Статус', max_length=2,
-                                choices=TripStatus.CHOICES, default=TripStatus.CREATED)
+                              choices=TripStatus.CHOICES, default=TripStatus.CREATED)
     length = models.FloatField(verbose_name='Длина пути', blank=True, null=True)
 
 
